@@ -99,7 +99,7 @@ module CanadaNews
 					})
   		}
 
-  		Article.all.each{ |article|
+  		Article.all.each{ |article| #can seperate this to a different metho
   			node = Nokogiri::HTML(open(article.attributes[:url]))
   			article.attributes[:author] = node.css(".small .spaced").text
   			article.attributes[:time_posted] = node.css(".delimited").text
