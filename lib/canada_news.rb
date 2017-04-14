@@ -98,7 +98,7 @@ DOC
 
   	def self.scrape
   		doc = Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))
-  		articles = doc.css('li.lineuproll-item-body a')
+  		articles = doc.css('.landing-secondary .lineuproll-item-body a')
   		#assign to individual Article
   		articles.each {|article|
   			Article.new({
@@ -107,6 +107,10 @@ DOC
 					})
   		}
 
+  		Article.all.each{ |article|
+  			puts article.attributes[:url]
+  		}
+  		# individual_articles = [Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))]
   	end
   end
 end
