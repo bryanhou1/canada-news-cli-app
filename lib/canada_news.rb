@@ -68,11 +68,11 @@ DOC
 
   	def display_article(options)
   		puts "Article #{options}"
-  		binding.pry
   		article = Article.all[options.to_i-1]
   		puts article.attributes[:title]
-  		# puts article.attributes[:time_written]
-  		# puts article.attributes[:content]
+  		puts article.attributes[:author]
+  		puts article.attributes[:time_posted]
+  		puts article.attributes[:content]
   		puts article.attributes[:url]
   	end
 
@@ -106,9 +106,14 @@ DOC
 					url: "http://www.cbc.ca#{article.attribute("href").value}"
 					})
   		}
-
+@@con=1
   		Article.all.each{ |article|
-  			puts article.attributes[:url]
+  			
+  			node = Nokogiri::HTML(open(article.attributes[:url]))
+  			binding.pry if @@con = 1
+  			# article.attributes[:author] = node.css(".small .spaced").text
+  			# article.attributes[:time_posted] = node.css(".delimited").text
+  			# article.attributes[:content] = node.css(".story-content").text
   		}
   		# individual_articles = [Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))]
   	end
