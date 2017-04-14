@@ -31,20 +31,37 @@ module CanadaNews
     end
 
   	def display_trending
+  		puts "\n\nToday's trending news:".bold.red
   		puts <<~DOC
-				Today's trending news:
-				1. #{Article.all[0].attributes[:title]}
-				2. #{Article.all[1].attributes[:title]}
-				3. #{Article.all[2].attributes[:title]}
-				4. #{Article.all[3].attributes[:title]}
-				5. #{Article.all[4].attributes[:title]}
-				6. #{Article.all[5].attributes[:title]}
-				7. #{Article.all[6].attributes[:title]}
-				8. #{Article.all[7].attributes[:title]}
-				9. #{Article.all[8].attributes[:title]}
-				10. #{Article.all[9].attributes[:title]}
+				1. #{Article.all[0].attributes[:title].magenta}
+				2. #{Article.all[1].attributes[:title].blue}
+				3. #{Article.all[2].attributes[:title].magenta}
+				4. #{Article.all[3].attributes[:title].blue}
+				5. #{Article.all[4].attributes[:title].magenta}
+				6. #{Article.all[5].attributes[:title].blue}
+				7. #{Article.all[6].attributes[:title].magenta}
+				8. #{Article.all[7].attributes[:title].blue}
+				9. #{Article.all[8].attributes[:title].magenta}
+				10. #{Article.all[9].attributes[:title].blue}
 
 			DOC
+
+  	# 	puts <<~DOC
+
+
+			# 	Today's trending news:
+			# 	1. #{Article.all[0].attributes[:title]}
+			# 	2. #{Article.all[1].attributes[:title]}
+			# 	3. #{Article.all[2].attributes[:title]}
+			# 	4. #{Article.all[3].attributes[:title]}
+			# 	5. #{Article.all[4].attributes[:title]}
+			# 	6. #{Article.all[5].attributes[:title]}
+			# 	7. #{Article.all[6].attributes[:title]}
+			# 	8. #{Article.all[7].attributes[:title]}
+			# 	9. #{Article.all[8].attributes[:title]}
+			# 	10. #{Article.all[9].attributes[:title]}
+
+			# DOC
   	end
 
   	def article_options #returns 1-10 or exit
@@ -70,7 +87,7 @@ module CanadaNews
   	def display_article(options)
   		puts "Article #{options}"
   		article = Article.all[options.to_i-1]
-  		puts article.attributes[:title].red
+  		puts article.attributes[:title].bold.red
   		puts article.attributes[:author]
   		puts article.attributes[:time_posted]
   		puts article.attributes[:content]
