@@ -73,7 +73,7 @@ DOC
   		puts article.attributes[:title]
   		# puts article.attributes[:time_written]
   		# puts article.attributes[:content]
-  		puts article.attributes[:relative_url]
+  		puts article.attributes[:url]
   	end
 
   	def exit_greeting
@@ -86,10 +86,12 @@ DOC
   class Article
   	attr_accessor :attributes
   	@@all = []
+
   	def initialize(attributes)
   		@attributes = attributes
   		@@all << self
   	end
+
   	def self.all
   		@@all
   	end
@@ -99,8 +101,12 @@ DOC
   		articles = doc.css('li.lineuproll-item-body a')
   		#assign to individual Article
   		articles.each {|article|
-  			Article.new({title: article.text, relative_url: article.attribute("href").value})
+  			Article.new({
+  				title: article.text,
+					url: "http://www.cbc.ca#{article.attribute("href").value}"
+					})
   		}
+
   	end
   end
 end
