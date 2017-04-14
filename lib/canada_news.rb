@@ -78,13 +78,33 @@ DOC
       puts "Bye."
     end
 
-  	def scrapping
-  	end
   end
+
+  class Scrape
+  end
+
 
   class Articles
 
-  	attr_accessor :title, :time_written, :content, :url #not sure if url will be used
+  	def initialize
+  		self == Array.new({},10)
+  	end
+
+  	def self.scrape
+  		doc = Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))
+  		#assign to individual Article
+  		# self.collect {|x|
+  		# 	x[:title]
+  		# 	x[:time_written]
+  		# 	x[:content]
+  		# 	x[:url]
+  		# }
+
+
+  	end
+  	#article will have attributes : :title, :time_written, :content, :url
 
   end
+
+
 end
