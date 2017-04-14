@@ -51,7 +51,7 @@ module CanadaNews
         print "Enter 1 - 10 to read more about the news, or 'exit' to quit: "
         input = gets.strip
         if !input.match(/^([1-9]|10|exit)$/)
-          puts "Option does not exist, please retry. \n\n\n\n"
+          puts "Option does not exist, please retry. \n\n".red.bold
           input = article_options
         end
       input
@@ -61,7 +61,7 @@ module CanadaNews
   		print "Enter 1 - 10 to read another news article, 'up' to go up to see the trending news again or 'exit' to quit: "
       input = gets.strip
       if !input.match(/^([1-9]|10|up|exit)$/)
-        puts "Option does not exist, please retry. \n\n\n\n"
+        puts "Option does not exist, please retry. \n\n".red.bold
         input = post_article_options
       end
       input
@@ -73,8 +73,8 @@ module CanadaNews
   		puts article.attributes[:title].bold.red
   		puts article.attributes[:author].bold
   		puts article.attributes[:time_posted].bold
-  		puts article.attributes[:content] + "\n"
-  		puts article.attributes[:url].bold + "\n"
+  		puts article.attributes[:content].strip + "\n\n"
+  		puts "[#{article.attributes[:url].bold}]" + "\n\n"
   	end
 
   	def exit_greeting
@@ -106,14 +106,17 @@ module CanadaNews
 					url: "http://www.cbc.ca#{article.attribute("href").value}"
 					})
   		}
-@@con=1
+@@con = 0
   		Article.all.each{ |article|
-  			
+  			@@con+=1
   			node = Nokogiri::HTML(open(article.attributes[:url]))
-  			# binding.pry if @@con == 1
   			article.attributes[:author] = node.css(".small .spaced").text
   			article.attributes[:time_posted] = node.css(".delimited").text
-  			article.attributes[:content] = article.attributes[:content] = node.css(".story-content").text.gsub!( "\n", "\t").gsub!( "\t", "\n   ")
+  			content = ""
+  			node.css(".story-content p").each{|p|
+  				content << "\n\n  " + p.text.strip if p.text.strip != ""
+  			} 
+  			article.attributes[:content] = content
   		}
   	end
   end
