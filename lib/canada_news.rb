@@ -32,19 +32,12 @@ module CanadaNews
 
   	def display_trending
   		puts "\n\n"+"Today's trending news:".bold.white.on.black
-  		puts <<~DOC
-				1. #{Article.all[0].attributes[:title].magenta}
-				2. #{Article.all[1].attributes[:title].blue}
-				3. #{Article.all[2].attributes[:title].magenta}
-				4. #{Article.all[3].attributes[:title].blue}
-				5. #{Article.all[4].attributes[:title].magenta}
-				6. #{Article.all[5].attributes[:title].blue}
-				7. #{Article.all[6].attributes[:title].magenta}
-				8. #{Article.all[7].attributes[:title].blue}
-				9. #{Article.all[8].attributes[:title].magenta}
-				10. #{Article.all[9].attributes[:title].blue}
 
-			DOC
+  		for i in 1..10
+  			msg = "#{i}. #{Article.all[i-1].attributes[:title]}"
+  			puts i.odd? ? msg.magenta : msg.blue
+  		end
+
   	end
 
   	def article_options
@@ -84,7 +77,7 @@ module CanadaNews
 
 
   class Article
-  	attr_accessor :attributes
+  	attr_reader :attributes
   	@@all = []
 
   	def initialize(attributes)
@@ -96,27 +89,23 @@ module CanadaNews
   		@@all
   	end
 
-  	def self.scrape
+  	def self.scrape #scrape can be an individual class
   		doc = Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))
   		articles = doc.css('.landing-secondary .lineuproll-item-body a')
-  		#assign to individual Article
   		articles.each {|article|
   			Article.new({
   				title: article.text,
 					url: "http://www.cbc.ca#{article.attribute("href").value}"
 					})
   		}
-@@con = 0
+
   		Article.all.each{ |article|
-  			@@con+=1
   			node = Nokogiri::HTML(open(article.attributes[:url]))
   			article.attributes[:author] = node.css(".small .spaced").text
   			article.attributes[:time_posted] = node.css(".delimited").text
-  			content = ""
-  			node.css(".story-content p").each{|p|
-  				content << "\n\n  " + p.text.strip if p.text.strip != ""
-  			} 
-  			article.attributes[:content] = content
+  			article.attributes[:content] = node.css(".story-content p").collect {|p|
+  				"\n\n  " + p.text.strip if p.text.strip != ""
+  			}.join
   		}
   	end
   end
