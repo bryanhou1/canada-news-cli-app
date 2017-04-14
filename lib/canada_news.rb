@@ -31,7 +31,7 @@ module CanadaNews
     end
 
   	def display_trending
-  		puts "\n\nToday's trending news:".bold.red
+  		puts "\n\n"+"Today's trending news:".bold.white.on.black
   		puts <<~DOC
 				1. #{Article.all[0].attributes[:title].magenta}
 				2. #{Article.all[1].attributes[:title].blue}
@@ -47,7 +47,7 @@ module CanadaNews
 			DOC
   	end
 
-  	def article_options #returns 1-10 or exit
+  	def article_options
         print "Enter 1 - 10 to read more about the news, or 'exit' to quit: "
         input = gets.strip
         if !input.match(/^([1-9]|10|exit)$/)
@@ -68,19 +68,18 @@ module CanadaNews
   	end
 
   	def display_article(options)
-  		puts "Article #{options}"
+  		puts "Article #{options}".bold.black
   		article = Article.all[options.to_i-1]
   		puts article.attributes[:title].bold.red
-  		puts article.attributes[:author]
-  		puts article.attributes[:time_posted]
-  		puts article.attributes[:content]
-  		puts article.attributes[:url]
+  		puts article.attributes[:author].bold
+  		puts article.attributes[:time_posted].bold
+  		puts article.attributes[:content] + "\n"
+  		puts article.attributes[:url].bold + "\n"
   	end
 
   	def exit_greeting
       puts "Bye."
     end
-
   end
 
 
@@ -107,16 +106,15 @@ module CanadaNews
 					url: "http://www.cbc.ca#{article.attribute("href").value}"
 					})
   		}
-# @@con=1
+@@con=1
   		Article.all.each{ |article|
   			
   			node = Nokogiri::HTML(open(article.attributes[:url]))
   			# binding.pry if @@con == 1
   			article.attributes[:author] = node.css(".small .spaced").text
   			article.attributes[:time_posted] = node.css(".delimited").text
-  			article.attributes[:content] = node.css(".story-content").text
+  			article.attributes[:content] = article.attributes[:content] = node.css(".story-content").text.gsub!( "\n", "\t").gsub!( "\t", "\n   ")
   		}
-  		# individual_articles = [Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))]
   	end
   end
 end
