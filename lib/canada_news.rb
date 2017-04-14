@@ -23,8 +23,11 @@ module CanadaNews
           display_article(input)
         end
         input = post_article_options
-        self.body if input == 'up'
+        if input == 'up'
+        	input = self.body
+        end
       end
+      input
     end
 
   	def display_trending
@@ -48,7 +51,7 @@ DOC
         input = gets.strip
         if !input.match(/^([1-9]|10|exit)$/)
           puts "Option does not exist, please retry. \n\n\n\n"
-          article_options
+          input = article_options
         end
       input
   	end
@@ -58,15 +61,17 @@ DOC
       input = gets.strip
       if !input.match(/^([1-9]|10|up|exit)$/)
         puts "Option does not exist, please retry. \n\n\n\n"
-        post_article_options
+        input = post_article_options
       end
       input
   	end
 
-  
   	def display_article(options)
   		puts "Article #{options}"
-  		puts "<article place holder>"
+  		puts Articles[options].title
+  		puts Articles[options].time_written
+  		puts Articles[options].content
+  		puts Articles[options].url
   	end
 
   	def exit_greeting
@@ -75,5 +80,11 @@ DOC
 
   	def scrapping
   	end
+  end
+
+  class Articles
+
+  	attr_accessor :title, :time_written, :content, :url #not sure if url will be used
+
   end
 end
