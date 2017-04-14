@@ -45,23 +45,6 @@ module CanadaNews
 				10. #{Article.all[9].attributes[:title].blue}
 
 			DOC
-
-  	# 	puts <<~DOC
-
-
-			# 	Today's trending news:
-			# 	1. #{Article.all[0].attributes[:title]}
-			# 	2. #{Article.all[1].attributes[:title]}
-			# 	3. #{Article.all[2].attributes[:title]}
-			# 	4. #{Article.all[3].attributes[:title]}
-			# 	5. #{Article.all[4].attributes[:title]}
-			# 	6. #{Article.all[5].attributes[:title]}
-			# 	7. #{Article.all[6].attributes[:title]}
-			# 	8. #{Article.all[7].attributes[:title]}
-			# 	9. #{Article.all[8].attributes[:title]}
-			# 	10. #{Article.all[9].attributes[:title]}
-
-			# DOC
   	end
 
   	def article_options #returns 1-10 or exit
