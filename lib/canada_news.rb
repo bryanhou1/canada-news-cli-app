@@ -68,10 +68,12 @@ DOC
 
   	def display_article(options)
   		puts "Article #{options}"
-  		puts Article.all[options-1][:title]
-  		puts Article.all[options-1][:time_written]
-  		puts Article.all[options-1][:content]
-  		puts Article.all[options-1][:relative_url]
+  		binding.pry
+  		article = Article.all[options.to_i-1]
+  		puts article.attributes[:title]
+  		# puts article.attributes[:time_written]
+  		# puts article.attributes[:content]
+  		puts article.attributes[:relative_url]
   	end
 
   	def exit_greeting
@@ -82,6 +84,7 @@ DOC
 
 
   class Article
+  	attr_accessor :attributes
   	@@all = []
   	def initialize(attributes)
   		@attributes = attributes
