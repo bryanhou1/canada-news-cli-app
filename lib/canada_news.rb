@@ -68,10 +68,10 @@ DOC
 
   	def display_article(options)
   		puts "Article #{options}"
-  		puts Articles.all[options-1][:title]
-  		puts Articles.all[options-1][:time_written]
-  		puts Articles.all[options-1][:content]
-  		puts Articles.all[options-1][:relative_url]
+  		puts Article.all[options-1][:title]
+  		puts Article.all[options-1][:time_written]
+  		puts Article.all[options-1][:content]
+  		puts Article.all[options-1][:relative_url]
   	end
 
   	def exit_greeting
@@ -81,19 +81,22 @@ DOC
   end
 
 
-  class Articles
+  class Article
   	@@all = []
+  	def initialize(attributes)
+  		@attributes = attributes
+  		@@all << self
+  	end
   	def self.all
   		@@all
   	end
 
   	def self.scrape
   		doc = Nokogiri::HTML(open("http://www.cbc.ca/news/trending"))
-  		binding.pry
   		articles = doc.css('li.lineuproll-item-body a')
   		#assign to individual Article
   		articles.each {|article|
-  			@@all << {title: article.text, relative_url: article.attribute("href").value}
+  			Article.new({title: article.text, relative_url: article.attribute("href").value})
   		}
   	end
   end
