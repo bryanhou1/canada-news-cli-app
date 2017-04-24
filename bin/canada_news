@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require './lib/canada_news.rb'
+require 'pry'
+require 'nokogiri'
+require 'open-uri'
+require 'colored2'
+
+CanadaNews::CLI.new.play
+
+#binding.pry
